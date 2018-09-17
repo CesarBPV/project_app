@@ -1,7 +1,7 @@
 # services/users/project/__init__.py
 
 import os
-from flask import Flask, jsonify
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 # instanciado la app
@@ -12,7 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 #app_settings = os.getenv('APP_SETTINGS')
 #app.config.from_object(app_settings)
 
-# instanciando la
+# instanciando la db
 #db = SQLAlchemy(app)
 db = SQLAlchemy()
 

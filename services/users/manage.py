@@ -26,6 +26,13 @@ def test():
         return 0
     return 1
 
+@cli.command()
+def seed_db():
+    """Sembrado la base de datos."""
+    db.session.add(User(username='igor', email="igorchipana@upeu.edu.pe"))
+    db.session.add(User(username='cesar', email="cesarpareja@upeu.edu.pe"))
+    db.session.commit()
+
 
 if __name__ == "__main__":
     cli()
