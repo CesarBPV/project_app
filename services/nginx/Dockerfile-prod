@@ -1,0 +1,7 @@
+# imagen base
+FROM nginx:1.15.0-alpine
+
+# instalando dependencias de entorno
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY /prod.conf /etc/nginx/conf.d
