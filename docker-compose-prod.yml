@@ -2,6 +2,30 @@ version: '3.5'
 
 services:
 
+  users:
+    build:
+      context: ./services/users
+      dockerfile: Dockerfile-prod
+    expose:
+      - 5000
+    environment:
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+    depends_on:  # <-- nuevo
+      - users-db
+
+  users-db:  # <-- nuevo
+    build:
+      context: ./services/users/project/db
+      dockerfile: Dockerfile
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
   nginx:
     build:
       context: ./services/nginx
@@ -11,31 +35,5 @@ services:
       - 80:80
     depends_on:
       - users
-
-  users:
-    build:
-      context: ./services/users
-      dockerfile: Dockerfile-prod
-    expose:
-      - "5000"
-    environment:
-      #- FLASK_APP=project/__init__.py
-      #- FLASK_ENV=production
-      - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
-    depends_on:
-      - users-db
-
-
-  users-db:
-    build:
-      context: ./services/users/project/db
-      dockerfile: Dockerfile
-    ports:
-      - 5435:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
 
 
